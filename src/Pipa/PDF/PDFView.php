@@ -1,7 +1,7 @@
 <?php
 
 namespace Pipa\PDF;
-use DOMPDF;
+use Dompdf\Dompdf;
 use Pipa\Dispatch\Dispatch;
 use Pipa\HTTP\Response;
 use Pipa\HTTP\View\PHPView;
@@ -21,12 +21,12 @@ class PDFView extends PHPView {
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		
-		$pdf = new DOMPDF();
-		$pdf->load_html($buffer);
+		$pdf = new Dompdf();
+		$pdf->loadHtml($buffer);
 		
 		$size = \Pipa\fnn(@$dispatch->result->options['pdfSize'], self::DEFAULT_SIZE);
 		$orientation = \Pipa\fnn(@$dispatch->result->options['pdfOrientation'], self::DEFAULT_ORIENTATION);
-		$pdf->set_paper($size, $orientation);
+		$pdf->setPaper($size, $orientation);
 		
 		$pdf->render();
 	
